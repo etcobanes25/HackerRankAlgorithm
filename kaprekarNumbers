@@ -1,0 +1,77 @@
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Result
+{
+
+    /*
+     * Complete the 'kaprekarNumbers' function below.
+     *
+     * The function accepts following parameters:
+     *  1. INTEGER p
+     *  2. INTEGER q
+     */
+
+    public static void kaprekarNumbers(int p, int q)
+    {
+        List<int> kaprekars = new List<int>();
+
+    for (int num = p; num <= q; num++)
+    {
+        if (IsKaprekar(num))
+        {
+            kaprekars.Add(num);
+        }
+    }
+
+    if (kaprekars.Count == 0)
+    {
+        Console.WriteLine("INVALID RANGE");
+    }
+    else
+    {
+        Console.WriteLine(string.Join(" ", kaprekars));
+    }
+}
+
+private static bool IsKaprekar(int n)
+{
+    if (n == 1) return true; // 1 is a Kaprekar number
+
+    long square = (long)n * n;
+    string squareStr = square.ToString();
+    int d = n.ToString().Length;
+
+    string leftStr = squareStr.Length > d ? squareStr.Substring(0, squareStr.Length - d) : "0";
+    string rightStr = squareStr.Substring(squareStr.Length - d);
+
+    int left = int.Parse(leftStr);
+    int right = int.Parse(rightStr);
+
+    return (left + right) == n && right != 0;
+    }
+
+}
+
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        int p = Convert.ToInt32(Console.ReadLine().Trim());
+
+        int q = Convert.ToInt32(Console.ReadLine().Trim());
+
+        Result.kaprekarNumbers(p, q);
+    }
+}
